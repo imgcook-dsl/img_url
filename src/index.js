@@ -290,7 +290,14 @@ module.exports = function(schema, option) {
       if ([ 'className', 'style', 'text', 'src', 'lines', 'source' ].indexOf(key) === -1) {
         props += ` ${parsePropsKey(key, schema.props[key])}=${parseProps(schema.props[key])}`;
       }
+	  if(key==="style"){
+		if(key.backgroundImage){
+			props += ':style="{'background-image': `url(${key.backgroundImage})`}"'
+		}
+	  }
     });
+	
+	
     switch (type) {
       case 'text':
         const innerText = parseProps(schema.props.text, true);
