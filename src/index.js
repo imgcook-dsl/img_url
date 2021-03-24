@@ -292,7 +292,7 @@ module.exports = function(schema, option) {
       }
 	  if(key==="style"){
 		if(key.backgroundImage){
-			props += ':style="{'background-image': `url(${key.backgroundImage})`}"'
+			props += `:style={background-image: url(${key.backgroundImage})}`
 		}
 	  }
     });
