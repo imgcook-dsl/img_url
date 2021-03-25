@@ -290,11 +290,6 @@ module.exports = function(schema, option) {
       if ([ 'className', 'style', 'text', 'src', 'lines', 'source' ].indexOf(key) === -1) {
         props += ` ${parsePropsKey(key, schema.props[key])}=${parseProps(schema.props[key])}`;
       }
-	  if(key==="style"){
-		if(key.backgroundImage){
-			props += `:style={background-image: url(${key.backgroundImage})}`
-		}
-	  }
     });
 	
 	
@@ -319,7 +314,12 @@ module.exports = function(schema, option) {
         break;
       case 'component':
         if (schema.children && schema.children.length) {
-          xml = `<view${classString}${props}>${transform(schema.children)}</view>`;
+			if(schema.props.style&&schema.props.style.backgroundImage){
+				xml = `<view${classString}${props}:style={background-image: url(${schema.props.style.backgroundImage})}>${transform(schema.children)}</view>`;
+			}else{
+				xml = `<view${classString}${props}>${transform(schema.children)}</view>`;
+			}
+          
         } else {
           xml = `<view${classString}${props} />`;
         }
@@ -329,9 +329,13 @@ module.exports = function(schema, option) {
       case 'block':
       default:
         if (schema.children && schema.children.length) {
-          xml = `<view${classString}${props}>${transform(schema.children)}</view>`;
+			if(schema.props.style&&schema.props.style.backgroundImage){
+				xml = `<view${classString}${props}:style={background-image: url(${schema.props.style.backgroundImage})}>${transform(schema.children)}</view>`;
+			}else{
+				xml = `<view${classString}${props}>${transform(schema.children)}</view>`;
+			}
         } else {
-          xml = `<view${classString}${props} />`;
+          xml = `<view${classString}${props}:style={background-image: url(${schema.props.style.backgroundImage})} />`;
         }
     }
 
